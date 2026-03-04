@@ -1,0 +1,8 @@
+OpenWP E2E checklist
+
+1. Activate plugin and open wp-admin -> OpenWP.
+2. Add OpenAI or Anthropic API key in Settings.
+3. Execute prompt: "Create a draft post titled Test".
+4. Verify pending approvals for high-risk actions.
+5. Approve a high/critical action and ensure backup is created.
+6. Trigger rollback from logs and verify action reversal.

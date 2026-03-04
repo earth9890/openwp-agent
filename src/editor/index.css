@@ -1,0 +1,188 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+@tailwind components;
+@tailwind utilities;
+
+.wp-block-openwp-ai-content-generator button,
+.wp-block-openwp-ai-content-generator input,
+.wp-block-openwp-ai-content-generator textarea,
+.wp-block-openwp-ai-content-generator select,
+.wp-block-openwp-ai-content-generator [role="combobox"] {
+  border-style: solid;
+}
+
+.openwp-ai-modify-popover button,
+.openwp-ai-modify-popover input,
+.openwp-ai-modify-popover textarea,
+.openwp-ai-modify-popover select {
+  border-style: solid;
+  font-family: Sora, Manrope, "Segoe UI", sans-serif;
+}
+
+.openwp-ai-modify-popover code,
+.openwp-ai-modify-popover pre,
+.openwp-ai-modify-popover kbd {
+  font-family: "JetBrains Mono", "IBM Plex Mono", monospace;
+}
+
+/* Block entrance animation - applied via JS after AI insertion */
+@keyframes openwp-block-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Indeterminate progress bar sweep */
+@keyframes openwp-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+.openwp-indeterminate-bar {
+  animation: openwp-indeterminate 1.5s ease-in-out infinite;
+}
+
+/* ----------------------------------------------------------------
+   Live preview typography
+   Styles the rendered HTML inside the GenerationPreview component.
+---------------------------------------------------------------- */
+
+.openwp-generation-preview h1,
+.openwp-generation-preview h2,
+.openwp-generation-preview h3,
+.openwp-generation-preview h4,
+.openwp-generation-preview h5,
+.openwp-generation-preview h6 {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #1e293b;
+}
+
+.openwp-generation-preview h1 {
+  font-size: 1.75em;
+}
+.openwp-generation-preview h2 {
+  font-size: 1.5em;
+}
+.openwp-generation-preview h3 {
+  font-size: 1.25em;
+}
+.openwp-generation-preview h4 {
+  font-size: 1.1em;
+}
+
+.openwp-generation-preview p {
+  margin-bottom: 0.75em;
+  line-height: 1.6;
+  color: #334155;
+}
+
+.openwp-generation-preview ul,
+.openwp-generation-preview ol {
+  margin-bottom: 0.75em;
+  padding-left: 1.5em;
+}
+
+.openwp-generation-preview ul {
+  list-style-type: disc;
+}
+.openwp-generation-preview ol {
+  list-style-type: decimal;
+}
+
+.openwp-generation-preview li {
+  margin-bottom: 0.25em;
+  line-height: 1.6;
+  color: #334155;
+}
+
+.openwp-generation-preview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5em;
+  margin: 0.75em 0;
+}
+
+.openwp-generation-preview a {
+  color: #0057ff;
+  text-decoration: underline;
+}
+
+.openwp-generation-preview blockquote {
+  border-left: 3px solid #bdd6d4;
+  padding-left: 1em;
+  margin: 0.75em 0;
+  color: #64748b;
+  font-style: italic;
+}
+
+.openwp-generation-preview figure {
+  margin: 0.75em 0;
+}
+
+.openwp-generation-preview figcaption {
+  font-size: 0.85em;
+  color: #94a3b8;
+  text-align: center;
+  margin-top: 0.25em;
+}
+
+.openwp-generation-preview hr {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 1em 0;
+}
+
+.openwp-generation-preview > :first-child {
+  margin-top: 0;
+}
+
+/* ----------------------------------------------------------------
+   Rocket launch animation
+---------------------------------------------------------------- */
+
+@keyframes openwp-rocket-launch {
+  0% {
+    transform: rotate(0deg) translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  25% {
+    transform: rotate(-12deg) translate(2px, -8px) scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-45deg) translate(24px, -44px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.openwp-rocket-launch {
+  animation: openwp-rocket-launch 0.5s cubic-bezier(0.22, 0.85, 0.32, 1)
+    forwards;
+}
+
+/* Rocket hover nudge */
+.openwp-rocket-btn:not(:disabled):hover svg {
+  transform: rotate(-8deg) translateY(-1px);
+}
+
+/* ----------------------------------------------------------------
+   Prompt box - textarea focus delegated to container
+---------------------------------------------------------------- */
+
+.openwp-prompt-box textarea:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}

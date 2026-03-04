@@ -1,0 +1,10 @@
+node_modules/
+build/*
+vendor/
+*.log
+*.cache
+*.zip
+*.tar.gz
+*.bak
+*.tmp
+.DS_Store	

@@ -1,0 +1,25 @@
+# Start command: composer phpstan
+
+includes:
+	- phpstan-baseline.neon
+	- vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+	level: 8
+	inferPrivatePropertyTypeFromConstructor: true
+	scanFiles:
+		- %rootDir%/../../php-stubs/wordpress-stubs/wordpress-stubs.php
+	bootstrapFiles:
+		- tests/bootstrap-phpstan.php
+	paths:
+		- openwp.php
+		- loader.php
+		- constants.php
+		- inc
+
+	excludePaths:
+		- node_modules
+		- vendor
+		- build
+
+	ignoreErrors:

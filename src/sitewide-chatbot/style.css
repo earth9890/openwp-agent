@@ -1,0 +1,1307 @@
+.openwp-sitewide-chatbot-root {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 999999;
+  font-family: "Archivo", "Segoe UI", system-ui, sans-serif;
+}
+
+/* Reset WP admin styles leaking into chatbot */
+.openwp-sitewide-chat-panel,
+.openwp-sitewide-chat-panel *,
+.openwp-sitewide-chat-panel *::before,
+.openwp-sitewide-chat-panel *::after {
+  box-sizing: border-box;
+}
+
+.openwp-sitewide-chat-panel button,
+.openwp-sitewide-chat-panel select,
+.openwp-sitewide-chat-panel input,
+.openwp-sitewide-chat-panel textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+}
+
+/* === TRIGGER BUTTON === */
+.openwp-sitewide-trigger {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 0;
+  background: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 4px 16px rgba(0, 87, 255, 0.22),
+    0 2px 6px rgba(0, 0, 0, 0.12);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  outline: 2px solid transparent;
+  outline-offset: 3px;
+}
+
+.openwp-sitewide-trigger:hover {
+  transform: scale(1.08) translateY(-1px);
+  box-shadow:
+    0 8px 24px rgba(0, 87, 255, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.15);
+  outline-color: rgba(0, 87, 255, 0.2);
+}
+
+.openwp-sitewide-trigger img {
+  width: 30px;
+  height: 30px;
+  display: block;
+}
+
+/* === CHAT PANEL === */
+.openwp-sitewide-chat-panel {
+  position: absolute;
+  right: 0;
+  bottom: 68px;
+  width: min(420px, calc(100vw - 56px));
+  max-width: calc(100vw - 56px);
+  height: min(600px, calc(100vh - 110px));
+  border-radius: 16px;
+  border: 1px solid rgba(0, 87, 255, 0.12);
+  background: #ffffff;
+  box-shadow:
+    0 20px 60px rgba(17, 42, 90, 0.18),
+    0 4px 16px rgba(17, 42, 90, 0.08);
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  animation: openwp-panel-enter 0.22s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+  transform-origin: bottom right;
+}
+
+@keyframes openwp-panel-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* === HEADER === */
+.openwp-sitewide-chat-header {
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #f0f5ff 0%, #eaf1fe 100%);
+  border-bottom: 1px solid rgba(0, 87, 255, 0.1);
+  overflow: hidden;
+}
+
+.openwp-sitewide-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.openwp-sitewide-brand img {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  border-radius: 8px;
+}
+
+.openwp-sitewide-brand > div {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.openwp-sitewide-brand strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #0d2d5c;
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.openwp-sitewide-brand span {
+  display: block;
+  margin-top: 1px;
+  font-size: 11px;
+  line-height: 1.3;
+  color: #5a7293;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* === HEADER ACTIONS === */
+.openwp-sitewide-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.openwp-sitewide-clear-btn {
+  border: 1px solid rgba(0, 87, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #163a6b;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.openwp-sitewide-clear-btn:hover:not(:disabled) {
+  background: #ffffff;
+  border-color: rgba(0, 87, 255, 0.35);
+}
+
+.openwp-sitewide-clear-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.openwp-sitewide-close {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #4a6288;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.openwp-sitewide-close:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: #1a3558;
+}
+
+/* === MESSAGE LIST === */
+.openwp-sitewide-message-list {
+  overflow-y: auto;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #d0dff6 transparent;
+}
+
+.openwp-sitewide-message-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.openwp-sitewide-message-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.openwp-sitewide-message-list::-webkit-scrollbar-thumb {
+  background: #d0dff6;
+  border-radius: 99px;
+}
+
+/* === EMPTY STATE === */
+.openwp-sitewide-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+  padding: 36px 20px;
+  color: #6080a4;
+  font-size: 12.5px;
+  line-height: 1.55;
+  margin: auto 0;
+}
+
+.openwp-sitewide-empty-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #eef4ff 0%, #dce8ff 100%);
+  border: 1px solid rgba(0, 87, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0057ff;
+  opacity: 0.8;
+}
+
+/* === MESSAGES === */
+.openwp-sitewide-message {
+  display: flex;
+  animation: openwp-msg-in 0.18s ease forwards;
+}
+
+@keyframes openwp-msg-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.openwp-sitewide-message-user {
+  justify-content: flex-end;
+}
+
+.openwp-sitewide-message-assistant {
+  justify-content: flex-start;
+}
+
+.openwp-sitewide-message-bubble {
+  max-width: 86%;
+  min-width: 0; /* prevent flex item from overflowing its max-width */
+  overflow: hidden; /* clip content so table can't blow out the bubble */
+  border-radius: 14px;
+  padding: 9px 12px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Assistant bubbles with structured data get more width */
+.openwp-sitewide-message-assistant .openwp-sitewide-message-bubble {
+  max-width: 96%;
+}
+
+.openwp-sitewide-message-user .openwp-sitewide-message-bubble {
+  background: linear-gradient(135deg, #0057ff 0%, #0049d6 100%);
+  color: #ffffff;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 87, 255, 0.22);
+}
+
+.openwp-sitewide-message-assistant .openwp-sitewide-message-bubble {
+  background: #f4f7ff;
+  color: #183a6e;
+  border: 1px solid #dae5f8;
+  border-bottom-left-radius: 4px;
+}
+
+/* === THINKING BUBBLE (OpenWP logo + animation) === */
+.openwp-sitewide-thinking-bubble {
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px !important;
+  white-space: normal !important;
+}
+
+/* Logo wrapper — holds logo + animated ring */
+.openwp-sitewide-thinking-logo-wrap {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+/* The logo itself breathes */
+.openwp-sitewide-thinking-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  display: block;
+  position: relative;
+  z-index: 1;
+  animation: openwp-thinking-logo 2s ease-in-out infinite;
+}
+
+@keyframes openwp-thinking-logo {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1) drop-shadow(0 0 0px rgba(0, 87, 255, 0));
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.08) drop-shadow(0 0 6px rgba(0, 87, 255, 0.45));
+  }
+}
+
+/* Expanding ring that pulses outward */
+.openwp-sitewide-thinking-ring {
+  position: absolute;
+  inset: -5px;
+  border-radius: 12px;
+  border: 2px solid rgba(0, 87, 255, 0.35);
+  pointer-events: none;
+  animation: openwp-thinking-ring 2s ease-in-out infinite;
+}
+
+@keyframes openwp-thinking-ring {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.08);
+  }
+}
+
+/* "OpenWP is thinking…" label */
+.openwp-sitewide-thinking-label {
+  font-size: 11.5px;
+  color: #6080a4;
+  font-style: italic;
+  animation: openwp-thinking-label 2s ease-in-out infinite;
+}
+
+@keyframes openwp-thinking-label {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* === STATUS & ERROR === */
+.openwp-sitewide-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #5a7293;
+  padding: 0 2px;
+}
+
+.openwp-sitewide-status::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #0057ff;
+  flex-shrink: 0;
+  animation: openwp-status-pulse 1.6s ease infinite;
+}
+
+@keyframes openwp-status-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+
+.openwp-sitewide-error {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #fcc8c3;
+  background: #fff5f4;
+  font-size: 11.5px;
+  color: #9f2f1f;
+  line-height: 1.45;
+}
+
+/* === CONTROLS SECTION === */
+.openwp-sitewide-controls {
+  border-top: 1px solid #e8eef8;
+  padding: 10px;
+  display: grid;
+  gap: 7px;
+  background: #fafcff;
+  overflow: hidden;
+}
+
+/* === PROVIDER ROW === */
+.openwp-sitewide-provider-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 6px;
+}
+
+.openwp-sitewide-provider-row select,
+.openwp-sitewide-provider-row input,
+.openwp-sitewide-input-row textarea {
+  font-family: inherit;
+}
+
+.openwp-sitewide-provider-row select,
+.openwp-sitewide-provider-row input {
+  border: 1px solid #dde8f5;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 11.5px;
+  color: #123761;
+  background: #ffffff;
+  outline: none;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.openwp-sitewide-provider-row select:focus,
+.openwp-sitewide-provider-row input:focus {
+  border-color: #0057ff;
+  box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.1);
+}
+
+/* === CONTEXT HINT === */
+.openwp-sitewide-context-hint {
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: #7a90b0;
+  padding: 0 2px;
+}
+
+.openwp-sitewide-file-input {
+  display: none;
+}
+
+/* === ATTACHMENT COUNT BADGE === */
+.openwp-sitewide-attachment-count {
+  font-size: 10px;
+  font-weight: 600;
+  color: #5a7293;
+  min-width: 28px;
+  text-align: center;
+}
+
+/* === ATTACHMENT LIST === */
+.openwp-sitewide-attachment-list {
+  display: grid;
+  gap: 5px;
+  max-height: 110px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #d0dff6 transparent;
+}
+
+/* === ATTACHMENT CHIP === */
+.openwp-sitewide-attachment-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid #dce8f8;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  transition:
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.openwp-sitewide-attachment-chip:hover {
+  border-color: #b8d0f0;
+  box-shadow: 0 2px 8px rgba(0, 87, 255, 0.08);
+}
+
+.openwp-sitewide-attachment-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 8px 8px 10px;
+}
+
+/* File type icon circle */
+.openwp-sitewide-attachment-file-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #eef4ff 0%, #dce8ff 100%);
+  border: 1px solid rgba(0, 87, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0057ff;
+  flex-shrink: 0;
+}
+
+.openwp-sitewide-attachment-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.openwp-sitewide-attachment-main strong {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #0f315f;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.openwp-sitewide-attachment-size {
+  font-size: 10px;
+  color: #7a95b8;
+  line-height: 1;
+}
+
+/* Remove button — circular */
+.openwp-sitewide-attachment-remove {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid #e0e8f5;
+  background: #f4f7ff;
+  color: #8aa4c8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.openwp-sitewide-attachment-remove:hover:not(:disabled) {
+  color: #c0392b;
+  background: #fff2f1;
+  border-color: #f5b8b3;
+  transform: scale(1.1);
+}
+
+.openwp-sitewide-attachment-remove:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.openwp-sitewide-attachment-remove:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Include row — bottom strip */
+.openwp-sitewide-attachment-include {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: #f7faff;
+  border-top: 1px solid #eef3fb;
+  font-size: 10.5px;
+  color: #4a6890;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.12s ease;
+}
+
+.openwp-sitewide-attachment-include:hover {
+  background: #eef4ff;
+}
+
+.openwp-sitewide-attachment-include input[type="checkbox"] {
+  width: 13px;
+  height: 13px;
+  accent-color: #0057ff;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* === INPUT ROW === */
+.openwp-sitewide-input-row {
+  position: relative;
+  border: 1px solid #dce8f8;
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.openwp-sitewide-input-row:focus-within {
+  border-color: #0057ff;
+  box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.1);
+}
+
+/* === TAG SUGGESTIONS === */
+.openwp-sitewide-tag-suggestions {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 50px;
+  z-index: 2;
+  display: grid;
+  gap: 2px;
+  padding: 5px;
+  border: 1px solid #dce8f8;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(17, 40, 77, 0.12);
+}
+
+.openwp-sitewide-tag-suggestion {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 6px 8px;
+  border-radius: 7px;
+  transition: background 0.1s ease;
+}
+
+.openwp-sitewide-tag-suggestion:hover,
+.openwp-sitewide-tag-suggestion.is-active {
+  background: #eef4ff;
+}
+
+.openwp-sitewide-tag-token {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #0057ff;
+}
+
+.openwp-sitewide-tag-meta {
+  font-size: 10px;
+  color: #6080a4;
+}
+
+/* === TEXTAREA === */
+.openwp-sitewide-input-row textarea {
+  width: 100%;
+  min-height: 82px;
+  resize: none;
+  border: 0;
+  background: transparent;
+  outline: 0;
+  padding: 10px 12px 50px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #123761;
+  display: block;
+  box-sizing: border-box;
+}
+
+.openwp-sitewide-input-row textarea::placeholder {
+  color: #a0b4cc;
+}
+
+.openwp-sitewide-input-row textarea:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* === INPUT ACTIONS === */
+.openwp-sitewide-input-actions {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* === ICON BUTTONS === */
+.openwp-sitewide-file-icon,
+.openwp-sitewide-send-btn {
+  border: 0;
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.openwp-sitewide-file-icon {
+  background: #eef3ff;
+  color: #0057ff;
+}
+
+.openwp-sitewide-file-icon:hover:not(:disabled) {
+  background: #dce8ff;
+  transform: scale(1.05);
+}
+
+.openwp-sitewide-file-icon:disabled {
+  background: #f3f6fb;
+  color: #a8bcd8;
+  cursor: not-allowed;
+}
+
+.openwp-rocket-btn {
+  background: linear-gradient(135deg, #0057ff 0%, #0043c4 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 87, 255, 0.3);
+}
+
+.openwp-sitewide-send-btn:hover:not(:disabled) {
+  transform: scale(1.06);
+  box-shadow: 0 4px 14px rgba(0, 87, 255, 0.38);
+}
+
+.openwp-sitewide-send-btn:disabled {
+  background: linear-gradient(135deg, #c2d5f8 0%, #b5c9f0 100%);
+  color: #ffffff;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* === ANIMATIONS === */
+.openwp-sitewide-spin {
+  animation: openwp-sitewide-spin 0.9s linear infinite;
+}
+
+@keyframes openwp-sitewide-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes openwp-rocket-launch {
+  0% {
+    transform: rotate(0deg) translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  25% {
+    transform: rotate(-12deg) translate(2px, -8px) scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-45deg) translate(24px, -44px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.openwp-rocket-launch {
+  animation: openwp-rocket-launch 0.5s cubic-bezier(0.22, 0.85, 0.32, 1)
+    forwards;
+}
+
+.openwp-rocket-btn:not(:disabled):hover svg {
+  transform: rotate(-8deg) translateY(-1px);
+}
+
+/* === APPROVAL CARD (inline approval UI inside assistant bubble) === */
+.openwp-approval-card {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 87, 255, 0.1);
+  display: grid;
+  gap: 8px;
+}
+
+.openwp-approval-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #163a6b;
+}
+
+.openwp-approval-risk {
+  margin-left: auto;
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+  border-radius: 99px;
+}
+
+.openwp-approval-risk-low {
+  background: #e8f9ef;
+  color: #1a7a47;
+}
+.openwp-approval-risk-medium {
+  background: #fff4e0;
+  color: #8a5200;
+}
+.openwp-approval-risk-high {
+  background: #fff0e8;
+  color: #8a2e00;
+}
+.openwp-approval-risk-critical {
+  background: #fde8e8;
+  color: #8a0000;
+}
+
+.openwp-approval-action {
+  font-size: 11px;
+  color: #4a6288;
+}
+
+.openwp-approval-action code {
+  background: rgba(0, 87, 255, 0.07);
+  border-radius: 5px;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #0043b8;
+}
+
+.openwp-approval-typed input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #dde8f5;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 11.5px;
+  font-family: inherit;
+  color: #123761;
+  background: #ffffff;
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.openwp-approval-typed input:focus {
+  border-color: #0057ff;
+  box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.1);
+}
+
+.openwp-approval-error {
+  font-size: 11px;
+  color: #9f2f1f;
+  background: #fff5f4;
+  border: 1px solid #fcc8c3;
+  border-radius: 7px;
+  padding: 5px 9px;
+}
+
+.openwp-approval-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.openwp-approval-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 11.5px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex: 1;
+  justify-content: center;
+}
+
+.openwp-approval-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.openwp-approval-btn-approve {
+  background: #0057ff;
+  color: #ffffff;
+  border-color: #0049d6;
+}
+
+.openwp-approval-btn-approve:hover:not(:disabled) {
+  background: #0049d6;
+  box-shadow: 0 2px 8px rgba(0, 87, 255, 0.3);
+}
+
+.openwp-approval-btn-reject {
+  background: #ffffff;
+  color: #7a2020;
+  border-color: #f0c0c0;
+}
+
+.openwp-approval-btn-reject:hover:not(:disabled) {
+  background: #fff5f4;
+  border-color: #e08080;
+}
+
+.openwp-approval-done {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 87, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #1a7a47;
+}
+
+/* === SMART RESULT (structured data table/card inside chat bubble) === */
+.openwp-sitewide-smart-result {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 87, 255, 0.1);
+  /* own scroll context so table scrolls inside the bubble */
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+  /* reset text styles inherited from the bubble */
+  white-space: normal;
+  word-break: normal;
+  /* fill bubble width exactly */
+  width: 100%;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: #c0d4f5 transparent;
+}
+
+.openwp-sitewide-smart-result::-webkit-scrollbar {
+  height: 4px;
+}
+
+.openwp-sitewide-smart-result::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.openwp-sitewide-smart-result::-webkit-scrollbar-thumb {
+  background: #c0d4f5;
+  border-radius: 99px;
+}
+
+/* Tailwind overflow-x-auto inside SmartResult: force it to fill the wrapper
+   so the scroll context is set by .openwp-sitewide-smart-result, not the table */
+.openwp-sitewide-smart-result > div {
+  min-width: 0;
+  width: 100%;
+}
+
+/* Tables should never force a width — the scroll wrapper handles overflow */
+.openwp-sitewide-smart-result table {
+  width: max-content;
+  min-width: 100%;
+}
+
+/* === AGENT PROGRESS (in-bubble status during action execution) === */
+.openwp-sitewide-agent-progress {
+  background: #f0f4ff !important;
+  border-color: #c7d6f5 !important;
+}
+
+.openwp-sitewide-agent-status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #3b5998;
+}
+
+.openwp-sitewide-agent-spinner {
+  flex-shrink: 0;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* === LIVE THINKING BUBBLE (streaming agent thought) === */
+.openwp-sitewide-thinking-live {
+  background: #faf8ff !important;
+  border-color: #e0d8f5 !important;
+}
+
+.openwp-sitewide-thinking-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #7c6bc4;
+}
+
+.openwp-sitewide-thinking-icon {
+  flex-shrink: 0;
+  animation: pulse-think 2s ease-in-out infinite;
+}
+
+@keyframes pulse-think {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.openwp-sitewide-thinking-content {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #5a4e7a;
+  font-style: italic;
+}
+
+.openwp-sitewide-thinking-content strong {
+  font-weight: 600;
+  font-style: normal;
+}
+
+.openwp-sitewide-thinking-content code {
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: rgba(107, 92, 231, 0.08);
+  font-family: ui-monospace, monospace;
+  font-size: 0.9em;
+  font-style: normal;
+}
+
+/* === COLLAPSIBLE THINKING (inside final reply) === */
+.openwp-sitewide-thinking-details {
+  margin-bottom: 8px;
+  border: 1px solid #e0d8f5;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.openwp-sitewide-thinking-summary {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #7c6bc4;
+  background: #faf8ff;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+
+.openwp-sitewide-thinking-summary::-webkit-details-marker {
+  display: none;
+}
+
+.openwp-sitewide-thinking-summary::before {
+  content: "\25B6";
+  font-size: 8px;
+  transition: transform 0.15s ease;
+}
+
+.openwp-sitewide-thinking-details[open]
+  > .openwp-sitewide-thinking-summary::before {
+  transform: rotate(90deg);
+}
+
+.openwp-sitewide-thinking-details > .openwp-sitewide-thinking-content {
+  padding: 8px 10px;
+  border-top: 1px solid #e0d8f5;
+  background: #fcfaff;
+}
+
+.openwp-sitewide-thinking-summary svg {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+/* === RICH HTML REPLY === */
+.openwp-sitewide-reply-html {
+  line-height: 1.55;
+}
+
+.openwp-sitewide-reply-html strong {
+  font-weight: 600;
+}
+
+.openwp-sitewide-reply-html em {
+  font-style: italic;
+}
+
+.openwp-sitewide-reply-html code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(0, 87, 255, 0.06);
+  font-family: ui-monospace, monospace;
+  font-size: 0.9em;
+}
+
+.openwp-sitewide-reply-html a {
+  color: #0057ff;
+  text-decoration: underline;
+}
+
+.openwp-sitewide-reply-html a:hover {
+  color: #0043c4;
+}
+
+/* === DATA TABLE (widget-native, no Tailwind) === */
+.openwp-sitewide-data-table-wrap {
+  margin-top: 8px;
+}
+
+.openwp-sitewide-data-meta {
+  font-size: 11px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.openwp-sitewide-data-scroll {
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+.openwp-sitewide-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.openwp-sitewide-data-table th {
+  padding: 6px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.openwp-sitewide-data-table td {
+  padding: 5px 10px;
+  color: #374151;
+  border-bottom: 1px solid #f3f4f6;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.openwp-sitewide-data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.openwp-sitewide-data-table tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+/* Key-value card */
+.openwp-sitewide-data-kv {
+  margin-top: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 8px 10px;
+  background: #f9fafb;
+}
+
+.openwp-sitewide-data-kv-row {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.openwp-sitewide-data-kv-row + .openwp-sitewide-data-kv-row {
+  margin-top: 2px;
+}
+
+.openwp-sitewide-data-kv-key {
+  min-width: 90px;
+  flex-shrink: 0;
+  font-weight: 600;
+  color: #6b7280;
+  font-size: 11px;
+}
+
+.openwp-sitewide-data-kv-val {
+  color: #374151;
+  word-break: break-word;
+}
+
+/* === MEMORY INDICATOR (pill below assistant messages) === */
+.openwp-sitewide-memory-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  padding: 2px 8px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #6b5ce7;
+  background: rgba(107, 92, 231, 0.08);
+  border: 1px solid rgba(107, 92, 231, 0.15);
+  border-radius: 99px;
+  cursor: default;
+  user-select: none;
+}
+
+.openwp-sitewide-memory-indicator svg {
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+@media (max-width: 782px) {
+  .openwp-sitewide-chatbot-root {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .openwp-sitewide-chat-panel {
+    width: calc(100vw - 24px);
+    height: min(580px, calc(100vh - 80px));
+    right: 0;
+    bottom: 62px;
+  }
+
+  .openwp-sitewide-provider-row {
+    grid-template-columns: 1fr;
+  }
+
+  .openwp-sitewide-input-row textarea {
+    min-height: 74px;
+  }
+}

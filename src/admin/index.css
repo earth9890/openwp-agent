@@ -1,0 +1,165 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --openwp-primary: #0057ff;
+  --openwp-primary-strong: #0043c4;
+  --openwp-ink: #132038;
+  --openwp-line: #d9e2f2;
+}
+
+/* ── Full-screen WordPress admin layout (like SureMails) ── */
+
+/* Remove WP left padding, full viewport height */
+#wpcontent:has(#openwp-admin-root) {
+  @apply min-h-screen pl-0;
+  background:
+    radial-gradient(circle at 8% 6%, #ffffff 0, #f7fbff 22%, #eef4fb 58%, #e7eef9 100%);
+}
+
+/* Remove WP bottom padding, full viewport height */
+#wpbody-content:has(#openwp-admin-root) {
+  @apply min-h-screen pb-0;
+}
+
+/* Hide WordPress footer */
+body:has(#openwp-admin-root) #wpfooter {
+  display: none;
+}
+
+/* Full viewport height for wpbody */
+#wpbody:has(#openwp-admin-root) {
+  @apply min-h-screen;
+  background:
+    radial-gradient(circle at 8% 6%, #ffffff 0, #f7fbff 22%, #eef4fb 58%, #e7eef9 100%);
+}
+
+#wpbody:has(#openwp-admin-root) #wpbody-content > .notice {
+  @apply hidden;
+}
+
+/* ── App root ── */
+
+#openwp-admin-root {
+  padding: 20px;
+  color: var(--openwp-ink);
+}
+
+#openwp-admin-root * {
+  font-family: Sora, Manrope, "Segoe UI", sans-serif;
+  box-sizing: border-box;
+}
+
+#openwp-admin-root main {
+  animation: openwp-fade-up 0.32s cubic-bezier(0.21, 0.9, 0.3, 1) both;
+}
+
+/* ── Form element resets ── */
+
+#openwp-admin-root input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+#openwp-admin-root input[type="number"]::-webkit-outer-spin-button,
+#openwp-admin-root input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#openwp-admin-root input[type="password"] {
+  letter-spacing: 0.1em;
+}
+
+/* ── Onboarding full-screen treatment ── */
+body.openwp-onboarding-page #wpadminbar,
+body.openwp-onboarding-page #adminmenuwrap,
+body.openwp-onboarding-page #adminmenuback,
+body.openwp-onboarding-page #screen-meta-links {
+  display: none;
+}
+
+html:has(> body.openwp-onboarding-page).wp-toolbar {
+  padding-top: 0 !important;
+}
+
+body.openwp-onboarding-page #wpcontent,
+body.openwp-onboarding-page #wpbody,
+body.openwp-onboarding-page #wpbody-content {
+  margin: 0;
+  padding: 0;
+}
+
+body.openwp-onboarding-page #openwp-admin-root {
+  padding: 0;
+}
+
+/* ── Console prompt box ── */
+
+.openwp-prompt-container {
+  border: 1px solid var(--openwp-line) !important;
+  border-radius: 14px !important;
+  background: linear-gradient(180deg, #ffffff, #f8fbff) !important;
+  box-shadow: 0 2px 10px rgba(19, 32, 56, 0.08);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.openwp-prompt-container:focus-within {
+  border-color: var(--openwp-primary) !important;
+  box-shadow: 0 0 0 2px rgba(0, 87, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.openwp-prompt-container textarea {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  resize: vertical;
+}
+
+.openwp-prompt-container textarea:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* ── Rocket launch animation ── */
+
+@keyframes openwp-rocket-launch {
+  0% {
+    transform: rotate(0deg) translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  25% {
+    transform: rotate(-12deg) translate(2px, -8px) scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-45deg) translate(24px, -44px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.openwp-rocket-launch {
+  animation: openwp-rocket-launch 0.5s cubic-bezier(0.22, 0.85, 0.32, 1)
+    forwards;
+}
+
+.openwp-rocket-btn:not(:disabled):hover svg {
+  transform: rotate(-8deg) translateY(-1px);
+}
+
+@keyframes openwp-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

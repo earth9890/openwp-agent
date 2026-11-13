@@ -15,7 +15,7 @@
     "i18n:json": "wp i18n make-json languages --no-purge"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^30.0.0",
+    "@wordpress/scripts": "^37.1.0",
     "autoprefixer": "^10.4.21",
     "grunt": "^1.6.1",
     "grunt-bumpup": "^0.6.3",
